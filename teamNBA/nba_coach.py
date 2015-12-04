@@ -5,7 +5,7 @@ nba_coach.py
 :Date: 11/11/2015
 This module defines NBACoach class that aggregates 
 the data from all the NBACoach collections and wraps it up in 
-to a transactional format.
+to a transactional format
 """
 
 import csv
