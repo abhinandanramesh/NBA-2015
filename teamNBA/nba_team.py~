@@ -1,0 +1,220 @@
+#!/usr/bin/env python
+"""
+nba_team.py
+:Author: Abhinandan Kelgere Ramesh
+:Date: 11/10/2015
+This module defines NBA team_season class that aggregates 
+the data from all the NBA team_season collections and wraps it up in 
+to a transactional format.
+"""
+
+import csv
+
+import sys
+reload(sys)
+
+
+class NBATransaction:
+	"""
+	This class consists of a transaction object corresponding to 
+	the NBA team_season data.This class object represents the data aggregated 
+	over all the NBA team_season collections and combined to a single class.
+	Collection: 
+	------------------------------------------------------------------------------
+	team_season
+	------------------------------------------------------------------------------
+	"""
+	def __init__(self):
+		self.Team = "None"
+		self.Season = "None"
+		self.team_o_fgm = "0"
+		self.team_o_fga = "0"
+		self.team_o_ftm = "0"
+		self.team_o_fta = "0"
+		self.team_o_oreb = "0"
+		self.team_o_dreb = "0"
+		self.team_o_reb = "0"
+		self.team_o_asts = "0"
+		self.team_o_pf = "0"
+		self.team_o_stl = "0"
+		self.team_o_to = "0"
+		self.team_o_blk = "0"
+		self.team_o_3pm = "0"
+		self.team_o_3pa = "0"
+		self.team_o_pts = "0"
+		self.team_d_fgm = "0"
+		self.team_d_fga = "0"
+		self.team_d_ftm = "0"
+		self.team_d_fta = "0"
+		self.team_d_oreb = "0"
+		self.team_d_dreb = "0"
+		self.team_d_reb = "0"
+		self.team_d_asts = "0"
+		self.team_d_pf = "0"
+		self.team_d_stl = "0"
+		self.team_d_to = "0"
+		self.team_d_blk = "0"
+		self.team_d_3pm = "0"
+		self.team_d_3pa = "0"
+		self.team_d_pts = "0"
+		self.team_pace = "0"
+		self.prev_winrate = "0"
+		self.win_rate = "0"
+		self.Class = "0"
+
+		
+	def __str__(self):
+		return "Team: %s , Season: %s , team_o_fgm: %s , team_o_fga: %s , team_o_ftm: %s , team_o_fta: %s , team_o_oreb: %s , team_o_dreb: %s , team_o_reb: %s, team_o_asts: %s , team_o_pf: %s , team_o_stl: %s , team_o_to: %s , team_o_blk: %s , team_o_3pm: %s , team_o_3pa: %s , team_o_pts: %s , team_d_fgm: %s , team_d_fga: %s , team_d_ftm: %s , team_d_fta: %s , team_d_oreb: %s , team_d_dreb: %s , team_d_reb: %s, team_d_asts: %s , team_d_pf: %s , team_d_stl: %s , team_d_to: %s , team_d_blk: %s , team_d_3pm: %s , team_d_3pa: %s , team_d_pts: %s , team_pace: %s , prev_winrate: %s , win_rate: %s , Class: %s" % (self.Team, self.Season, self.team_o_fgm, self.team_o_fga, self.team_o_ftm, self.team_o_fta, self.team_o_oreb, self.team_o_dreb, self.team_o_reb, self.team_o_asts, self.team_o_pf, self.team_o_stl, self.team_o_to, self.team_o_blk, self.team_o_3pm, self.team_o_3pa, self.team_o_pts, self.team_d_fgm, self.team_d_fga, self.team_d_ftm, self.team_d_fta, self.team_d_oreb, self.team_d_dreb, self.team_d_reb, self.team_d_asts, self.team_d_pf, self.team_d_stl, self.team_d_to, self.team_d_blk, self.team_d_3pm, self.team_d_3pa, self.team_d_pts, self.team_pace, self.prev_winrate, self.win_rate, self.Class)
+
+	def __repr__(self):
+		return "Team: %s , Season: %s , team_o_fgm: %s , team_o_fga: %s , team_o_ftm: %s , team_o_fta: %s , team_o_oreb: %s , team_o_dreb: %s , team_o_reb: %s, team_o_asts: %s , team_o_pf: %s , team_o_stl: %s , team_o_to: %s , team_o_blk: %s , team_o_3pm: %s , team_o_3pa: %s , team_o_pts: %s , team_d_fgm: %s , team_d_fga: %s , team_d_ftm: %s , team_d_fta: %s , team_d_oreb: %s , team_d_dreb: %s , team_d_reb: %s, team_d_asts: %s , team_d_pf: %s , team_d_stl: %s , team_d_to: %s , team_d_blk: %s , team_d_3pm: %s , team_d_3pa: %s , team_d_pts: %s , team_pace: %s , prev_winrate: %s , win_rate: %s , Class: %s" % (self.Team, self.Season, self.team_o_fgm, self.team_o_fga, self.team_o_ftm, self.team_o_fta, self.team_o_oreb, self.team_o_dreb, self.team_o_reb, self.team_o_asts, self.team_o_pf, self.team_o_stl, self.team_o_to, self.team_o_blk, self.team_o_3pm, self.team_o_3pa, self.team_o_pts, self.team_d_fgm, self.team_d_fga, self.team_d_ftm, self.team_d_fta, self.team_d_oreb, self.team_d_dreb, self.team_d_reb, self.team_d_asts, self.team_d_pf, self.team_d_stl, self.team_d_to, self.team_d_blk, self.team_d_3pm, self.team_d_3pa, self.team_d_pts, self.team_pace, self.prev_winrate, self.win_rate, self.Class)
+
+	def convertNBAContent(self, team, season, win, loss):
+		"""
+		Converts the data in content into
+		the transactional format and returns a NBA team_season
+		Content transaction object.
+		"""
+
+		self.Team = team
+		self.Season = str(season)
+
+		winRate = (float(win))/((float(win))+(float(loss)))
+
+		season = season - 1
+		year = 2
+	
+		team_stat = [0] * 30
+		pace = 0.0
+		number = 0
+		prev_winRate = 0.0
+
+		while (year > 0):
+		        f = open('team_season.txt')
+	 		csv_f = csv.reader(f)
+
+	 		for row in csv_f:
+    				if row[0] == team and row[1] == str(season):
+					number += 1
+					team_stat[0] += int(row[3])
+					team_stat[1] += int(row[4])
+					team_stat[2] += int(row[5])
+					team_stat[3] += int(row[6])
+					team_stat[4] += int(row[7])
+					team_stat[5] += int(row[8])
+					team_stat[6] += int(row[9])
+					team_stat[7] += int(row[10])
+					team_stat[8] += int(row[11])
+					team_stat[9] += int(row[12])
+					team_stat[10] += int(row[13])
+					team_stat[11] += int(row[14])
+					team_stat[12] += int(row[15])
+					team_stat[13] += int(row[16])
+					team_stat[14] += int(row[17])
+					team_stat[15] += int(row[18])
+					team_stat[16] += int(row[19])
+					team_stat[17] += int(row[20])
+					team_stat[18] += int(row[21])
+					team_stat[19] += int(row[22])
+					team_stat[20] += int(row[23])
+					team_stat[21] += int(row[24])
+					team_stat[22] += int(row[25])
+					team_stat[23] += int(row[26])
+					team_stat[24] += int(row[27])
+					team_stat[25] += int(row[28])
+					team_stat[26] += int(row[29])
+					team_stat[27] += int(row[30])
+					team_stat[28] += int(row[31])
+					team_stat[29] += int(row[32])
+					pace += float(row[33])
+					prev_winRate += (float(row[34]))/((float(row[34]))+(float(row[35])))
+					break
+			season = season - 1
+			year = year - 1
+	
+			f.close()
+
+		if number > 0:
+			self.team_o_fgm = str(team_stat[0]/number)
+			self.team_o_fga = str(team_stat[1]/number)
+			self.team_o_ftm = str(team_stat[2]/number)
+			self.team_o_fta = str(team_stat[3]/number)
+			self.team_o_oreb = str(team_stat[4]/number)
+			self.team_o_dreb = str(team_stat[5]/number)
+			self.team_o_reb = str(team_stat[6]/number)
+			self.team_o_asts = str(team_stat[7]/number)
+			self.team_o_pf = str(team_stat[8]/number)
+			self.team_o_stl = str(team_stat[9]/number)
+			self.team_o_to = str(team_stat[10]/number)
+			self.team_o_blk = str(team_stat[11]/number)
+			self.team_o_3pm = str(team_stat[12]/number)
+			self.team_o_3pa = str(team_stat[13]/number)
+			self.team_o_pts = str(team_stat[14]/number)
+			self.team_d_fgm = str(team_stat[15]/number)
+			self.team_d_fga = str(team_stat[16]/number)
+			self.team_d_ftm = str(team_stat[17]/number)
+			self.team_d_fta = str(team_stat[18]/number)
+			self.team_d_oreb = str(team_stat[19]/number)
+			self.team_d_dreb = str(team_stat[20]/number)
+			self.team_d_reb = str(team_stat[21]/number)
+			self.team_d_asts = str(team_stat[22]/number)
+			self.team_d_pf = str(team_stat[23]/number)
+			self.team_d_stl = str(team_stat[24]/number)
+			self.team_d_to = str(team_stat[25]/number)
+			self.team_d_blk = str(team_stat[26]/number)
+			self.team_d_3pm = str(team_stat[27]/number)
+			self.team_d_3pa = str(team_stat[28]/number)
+			self.team_d_pts = str(team_stat[29]/number)
+			self.team_pace = str(pace/float(number))
+			self.prev_winrate = str(prev_winRate/float(number))
+			self.win_rate = str(winRate)	
+			self.Class = str(int(winRate*10))
+
+
+def createNBATransactions():
+	"""
+	Creates a list of NBA team_season Transactions by 
+	converting each document in the NBA team_season
+	collection and converting it to a transaction object.
+	"""
+
+	NBATransactions = []
+	
+	NBATeams = ['ATL','BOS','CHI','CHA','CLE','DAL','DEN','DET','GSW','HOU', 'IND', 'LAC', 'LAL', 'MEM', 'MIA', 'MIL', 'MIN', 'NJN', 'NOH', 'NYK', 'ORL', 'PHI', 'PHO', 'POR', 'SAC', 'SAS', 'SEA', 'TOR', 'UTA', 'WAS']
+
+	NBASeasons = ['1985', '1986', '1987', '1988', '1989', '1990', '1991', '1992', '1993', '1994', '1995', '1996', '1997', '1998', '1999', '2000', '2001', '2002', '2003', '2004']
+
+	for team in NBATeams:
+		for season in NBASeasons:
+			f = open('team_season.txt')
+	 		csv_f = csv.reader(f)
+
+	 		for row in csv_f:
+    				if row[0] == team and row[1] == season:
+					NBADataTransaction = NBATransaction()
+					NBADataTransaction.convertNBAContent(team, int(season), row[34], row[35])
+					NBATransactions.append(NBADataTransaction)
+
+			f.close()
+
+	return NBATransactions
+
+
+def convertToTransactions(pathToDirectory):
+	"""
+	Converts the NBA team_season content into transactions and dumps into CSV
+	in specified directory.
+	"""
+	Transactions = []
+	Transactions.extend(createNBATransactions())
+
+	with open('NBATeamTransactions.csv','wb') as fp:
+		writer = csv.writer(fp, delimiter=',')
+		writer.writerow(["Team", "Season", "team_o_fgm", "team_o_fga", "team_o_ftm", "team_o_fta", "team_o_oreb", "team_o_dreb", "team_o_reb", "team_o_asts", "team_o_pf", "team_o_stl", "team_o_to", "team_o_blk", "team_o_3pm", "team_o_pts", "team_d_fgm", "team_d_fga", "team_d_ftm", "team_d_fta", "team_d_oreb", "team_d_dreb", "team_d_reb", "team_d_asts", "team_d_pf", "team_d_stl", "team_d_to", "team_d_blk", "team_d_3pm", "team_d_pts", "team_pace", "prev_winrate", "win_rate", "Class"])
+
+		for transaction in Transactions:
+			writer.writerow([transaction.Team, transaction.Season, transaction.team_o_fgm, transaction.team_o_fga, transaction.team_o_ftm, transaction.team_o_fta, transaction.team_o_oreb, transaction.team_o_dreb, transaction.team_o_reb, transaction.team_o_asts, transaction.team_o_pf, transaction.team_o_stl, transaction.team_o_to, transaction.team_o_blk, transaction.team_o_3pm, transaction.team_o_pts, transaction.team_d_fgm, transaction.team_d_fga, transaction.team_d_ftm, transaction.team_d_fta, transaction.team_d_oreb, transaction.team_d_dreb, transaction.team_d_reb, transaction.team_d_asts, transaction.team_d_pf, transaction.team_d_stl, transaction.team_d_to, transaction.team_d_blk, transaction.team_d_3pm, transaction.team_d_pts, transaction.team_pace, transaction.prev_winrate, transaction.win_rate, transaction.Class])
+
+	return Transactions
+
+convertToTransactions('/home/abkr/nba-project')
